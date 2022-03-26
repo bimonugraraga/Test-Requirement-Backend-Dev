@@ -1,6 +1,6 @@
 const User = require('../models/Users')
 var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+const {signToken} = require('../helpers/jwt')
 class UserController{
   static async registerNewUser(req, res, next){
     let {name, email, password} = req.body
@@ -90,7 +90,7 @@ class UserController{
         ...targetUser,
         password : undefined
       }
-      var access_token = jwt.sign(payload, 'BIMODIMASNUGRARAGA');
+      var access_token = signToken(payload)
       res.status(200).json({access_token: access_token})
     } catch (error) {
       res.status(error.code).json({ message: error.message });

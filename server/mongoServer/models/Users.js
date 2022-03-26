@@ -23,6 +23,10 @@ class User{
       let findedUser = await  db.collection('Users').findOne({
         email: email
       })
+      findedUser = {
+        ...findedUser,
+        password: undefined
+      }
 
       return findedUser
     } catch (error) {
