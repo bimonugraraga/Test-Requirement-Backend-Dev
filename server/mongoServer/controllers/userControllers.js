@@ -3,7 +3,8 @@ var bcrypt = require('bcryptjs');
 const {signToken} = require('../helpers/jwt')
 class UserController{
   static async registerNewUser(req, res, next){
-    let {name, email, password} = req.body
+    let {name, email, password, phoneNumber} = req.body
+    phoneNumber = '0' + phoneNumber
     // console.log(req.body)
     try {
       if (!name){       
@@ -29,6 +30,13 @@ class UserController{
           message: "Password Is Required!",
         }
       }
+      if (!phoneNumber){
+        throw {
+          code: 400,
+          name: "Bad Request",
+          message: "Phone Number Is Required!",
+        }
+      }
 
       let targetUser = await User.findOne(email)
       if (targetUser){
@@ -38,8 +46,9 @@ class UserController{
           message: "Email Has Been Taken!",
         }
       }
+
       let payload = {
-        name, email, password
+        name, email, password, phoneNumber
       }
 
       let newUser = await User.create(payload)
@@ -77,6 +86,8 @@ class UserController{
           message: "Invalid Email or Password!",
         }
       }
+
+      console.log(targetUser, "<<<<")
 
       let isPassword = bcrypt.compareSync(password, targetUser.password)
       if (!isPassword){

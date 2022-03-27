@@ -23,11 +23,10 @@ class User{
       let findedUser = await  db.collection('Users').findOne({
         email: email
       })
-      findedUser = {
-        ...findedUser,
-        password: undefined
+      console.log(findedUser, ">>>")
+      if (!findedUser){
+        return null
       }
-
       return findedUser
     } catch (error) {
       return error
