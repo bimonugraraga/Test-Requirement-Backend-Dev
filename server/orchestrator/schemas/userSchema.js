@@ -23,6 +23,7 @@ const typeDefs = gql`
 
   type Mutation {
     LoginUser(data: User): UserResponse
+    RegisterUser(data: User): UserResponse
   }
 `;
 
@@ -53,6 +54,21 @@ const resolvers = {
         })
 
         return loggedUser.data
+      } catch (error) {
+        return error.response.data
+      }
+    },
+
+    RegisterUser: async(_, args) => {
+      console.log(args)
+      let {name, email, password, phoneNumber} = args.data
+
+      try {
+        let newUser = await axios.post('http://localhost:3000/users/register', {
+          name, email, password, phoneNumber
+        })
+
+        return newUser.data
       } catch (error) {
         return error.response.data
       }
