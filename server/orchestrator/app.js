@@ -1,9 +1,10 @@
 const { ApolloServer, gql } = require('apollo-server');
 const userSchema = require('./schemas/userSchema')
 const productSchema = require('./schemas/productSchema')
+const cartSchema = require('./schemas/cartSchema')
 const server = new ApolloServer({ 
-  typeDefs: [userSchema.typeDefs, productSchema.typeDefs], 
-  resolvers: [userSchema.resolvers, productSchema.resolvers] });
+  typeDefs: [userSchema.typeDefs, productSchema.typeDefs, cartSchema.typeDefs], 
+  resolvers: [userSchema.resolvers, productSchema.resolvers, cartSchema.resolvers] });
 
 // The `listen` method launches a web server.
 server.listen().then(({ url }) => {

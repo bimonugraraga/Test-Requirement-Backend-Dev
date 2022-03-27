@@ -24,12 +24,12 @@ const typeDefs = gql`
     imgUrl: String
   }
 
-  extend type Query {
+  type Query {
     GetAllProduct(similar: String, access_token: String): [Product]
     GetOneProduct(productId: String, access_token: String): Product
   }
 
-  extend type Mutation{
+  type Mutation{
     AddNewProduct(data: NewProduct, access_token: String): Product
   }
 

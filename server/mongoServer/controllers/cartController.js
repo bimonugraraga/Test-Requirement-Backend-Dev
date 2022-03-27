@@ -3,7 +3,7 @@ const User = require('../models/Users')
 const Cart = require('../models/Cart')
 class CartController {
   static async getAllCart(req, res, next){
-    console.log(req.loggedUser)
+    // console.log(req.loggedUser)
     let {_id} = req.loggedUser
     try {
       let allUserCart = await Cart.findAll(_id)
@@ -33,8 +33,12 @@ class CartController {
           message: "Product Not Found!",
         }
       }
+      targetedProduct.productId = targetedProduct._id
+      delete targetedProduct._id
+      console.log(targetedProduct, ">>><<<")
       let targetedUser = await User.findOne(email)
       delete targetedUser.password
+      console.log(targetedUser, "<<<>>>")
       let payload = {
         ...targetedProduct,
         likedId: targetedUser._id,
@@ -42,7 +46,9 @@ class CartController {
         size,
         gender
       }
+
       let addedToCart = await Cart.create(payload)
+      console.log(addedToCart, ">><<")
       res.status(201).json({message: addedToCart})
     } catch (error) {
       if (error.name === "NOT FOUND"){

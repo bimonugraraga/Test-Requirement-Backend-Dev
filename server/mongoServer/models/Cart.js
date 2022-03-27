@@ -14,7 +14,7 @@ class Cart {
     }
   }
   static async create(payload){
-    console.log(payload, ">>>>")
+    console.log(payload, "<><>")
     try {
       const db = getDatabase()
       let newProduct = await db.collection('Carts').insertOne(payload)

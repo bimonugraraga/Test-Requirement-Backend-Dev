@@ -4,7 +4,7 @@ const User = require('../models/Users')
 
 async function authn(req, res, next){
   let {access_token} = req.headers
-  // console.log(access_token, "<>")
+
   try {
     if (!access_token){
       throw{
@@ -36,6 +36,7 @@ async function authn(req, res, next){
 
       }
     }
+
 
     req.loggedUser = {
       _id: targetUser._id,
