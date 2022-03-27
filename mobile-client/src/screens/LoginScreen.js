@@ -1,9 +1,20 @@
 import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackground, Dimensions} from 'react-native'
 import { TextInput, Avatar, Button, Card, Title, Paragraph, configureFonts, DefaultTheme } from 'react-native-paper';
-const LeftContent = props => <Avatar.Icon {...props}  />
+import { useEffect, useState, useContext } from 'react';
+import AuthContext from '../context';
+
 const windowWidth = (Dimensions.get('window').width);
 const windowHeight = (Dimensions.get('window').height);
 function LoginScreen({navigation}){
+  const auth = useContext(AuthContext);
+  let [email, setEmail] = useState('')
+  let [password, setPassword] = useState('')
+
+  const submitHandler = () => {
+    console.log(email, password)
+    navigation.navigate('ProductRouter')
+  }
+
   const toRegister = (e) => {
     e.preventDefault()
     navigation.navigate('Register')
@@ -17,14 +28,16 @@ function LoginScreen({navigation}){
           <TextInput
             label="Email"
             style={styles.inputField}
+            onChangeText={(newText) => setEmail(newText)} 
           />
 
           <TextInput
             label="Password"
             style={styles.inputField}
+            onChangeText={(newText) => setPassword(newText)} 
           />
 
-          <Button style={styles.loginBtn}>
+          <Button style={styles.loginBtn} onPress={submitHandler}>
             <Text style={styles.textLog}>
               MASUK
             </Text>
