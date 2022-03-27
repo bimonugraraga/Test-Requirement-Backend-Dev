@@ -38,6 +38,9 @@ class Product{
       const db = getDatabase()
       let targetedProduct = await db.collection('Products').findOne({"_id": ObjectId(_id)})
       // console.log(targetedProduct)
+      if (!targetedProduct){
+        return null
+      }
       return targetedProduct
     } catch (error) {
       
