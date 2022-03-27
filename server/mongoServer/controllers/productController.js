@@ -3,10 +3,11 @@ const User = require('../models/Users')
 class ProductController{
   static async getAllProduct(req, res, next){
     let {productName} = req.query
+    console.log(productName, ">>>>")
+    if (!productName){
+      productName = ''
+    }
     try {
-      if (!productName){
-        productName = ''
-      }
       let allProducts = await Product.findAll(productName)
       res.status(200).json(allProducts)
     } catch (error) {

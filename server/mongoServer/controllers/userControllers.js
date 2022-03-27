@@ -87,7 +87,6 @@ class UserController{
         }
       }
 
-      console.log(targetUser, "<<<<")
 
       let isPassword = bcrypt.compareSync(password, targetUser.password)
       if (!isPassword){
