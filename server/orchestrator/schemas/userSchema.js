@@ -1,10 +1,7 @@
 const { gql } = require('apollo-server');
 const axios = require('axios')
 const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
+
   type UserResponse {
     access_token: String
     message: String
@@ -16,32 +13,15 @@ const typeDefs = gql`
     password: String
     phoneNumber: String
   }
-
-  type Query {
-    books: [Book]
-  }
-
-  type Mutation {
+  extend type Mutation {
     LoginUser(data: User): UserResponse
     RegisterUser(data: User): UserResponse
   }
 `;
 
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
 
 const resolvers = {
-  Query: {
-    books: () => books,
-  },
+
   Mutation:{
     LoginUser: async(_, args) => {
 
