@@ -2,6 +2,9 @@ import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackgr
 import { TextInput, Avatar, Button, Card, Title, Paragraph, configureFonts, DefaultTheme } from 'react-native-paper';
 import { useEffect, useState, useContext } from 'react';
 import AuthContext from '../context';
+import { useMutation, useQuery } from "@apollo/client";
+import { USER_LOGIN } from '../../lib/apollo/queries/userQuery';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const windowWidth = (Dimensions.get('window').width);
 const windowHeight = (Dimensions.get('window').height);
@@ -10,11 +13,34 @@ function LoginScreen({navigation}){
   let [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
 
-  const submitHandler = () => {
-    console.log(email, password)
-    navigation.navigate('ProductRouter')
-  }
+  let [submitHandler = () => {}, { loading, error, data }] = useMutation(
+    USER_LOGIN,
+    {
+      variables: {
+        data: {
+          email: email,
+          password: password,
 
+        }
+      },
+    }
+  );
+  console.log(loading, error, data, auth, "<-->");
+  if (data){
+    if (data.LoginUser.access_token){
+      AsyncStorage.setItem("access_token", data.LoginUser.access_token)
+      .then((resp) => {
+        setEmail('')
+        setPassword('')
+        navigation.navigate("ProductRouter");
+      })
+      .catch((err) => {
+        console.log(err, "<><><>");
+      });
+    } else {
+      console.log(data.LoginUser.message)
+    }
+  }
   const toRegister = (e) => {
     e.preventDefault()
     navigation.navigate('Register')
