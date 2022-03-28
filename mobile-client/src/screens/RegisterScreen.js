@@ -1,9 +1,38 @@
 import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackground, Dimensions} from 'react-native'
 import { TextInput, Avatar, Button, Card, Title, Paragraph, configureFonts, DefaultTheme } from 'react-native-paper';
-
+import { useMutation, useQuery } from "@apollo/client";
+import { USER_REGISTER } from '../../lib/apollo/queries/userQuery';
+import { useEffect, useState, useContext } from 'react';
 const windowWidth = (Dimensions.get('window').width);
 const windowHeight = (Dimensions.get('window').height);
+
 function RegisterScreen({navigation}){
+  let [email, setEmail] = useState('')
+  let [password, setPassword] = useState('')
+  let [name, setName] = useState('')
+  let [phoneNumber, setPhoneNumber] = useState('')
+  let [submitHandler = () => {}, { loading, error, data }] = useMutation(
+    USER_REGISTER,
+    {
+      variables: {
+        data: {
+          name: name,
+          email: email,
+          password: password,
+          phoneNumber: phoneNumber
+
+        }
+      },
+    }
+  );
+  console.log(loading, error, data, "<-->");
+  if (data) {
+    if (data.RegisterUser.message.match('Has Been Registered!')){
+      navigation.navigate("Login");
+    } else {
+      console.log(data.RegisterUser.message)
+    }
+  }
   return(
     <View style={styles.container}>
       <ImageBackground source={{uri: 'https://i.pinimg.com/736x/8e/e8/8e/8ee88e9cd048845e279f438e9f5dbaa3.jpg'}} style={styles.image}>
@@ -13,24 +42,28 @@ function RegisterScreen({navigation}){
           <TextInput
             label="Nama Lengkap"
             style={styles.inputField}
+            onChangeText={(newText) => setName(newText)} 
           />
 
           <TextInput
             label="Email"
             style={styles.inputField}
+            onChangeText={(newText) => setEmail(newText)} 
           />
 
           <TextInput
             label="Password"
             style={styles.inputField}
+            onChangeText={(newText) => setPassword(newText)} 
           />
 
           <TextInput
             label="+62"
             style={styles.inputField}
+            onChangeText={(newText) => setPhoneNumber(newText)} 
           />
 
-          <Button style={styles.regBtn}>
+          <Button style={styles.regBtn} onPress={submitHandler}>
             <Text style={styles.textLog}>
               BUAT AKUN
             </Text>

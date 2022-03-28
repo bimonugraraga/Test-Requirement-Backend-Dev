@@ -8,11 +8,11 @@ const authn = require('../middlewares/authn')
 //!User Route
 router.use('/users', userRoute)
 
+//!Product Route
+router.use('/products', productRoute)
 //!Authn
 router.use(authn)
 
-//!Product Route
-router.use('/products', productRoute)
 
 //!Cart Route
 router.use('/carts', cartRoute)
