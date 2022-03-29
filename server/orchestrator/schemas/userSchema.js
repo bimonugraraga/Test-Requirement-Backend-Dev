@@ -19,7 +19,7 @@ const typeDefs = gql`
   }
 `;
 
-
+// https://branded-things-hobby.herokuapp.com
 const resolvers = {
 
   Mutation:{
@@ -28,7 +28,7 @@ const resolvers = {
       let {email, password} = args.data
 
       try {
-        let loggedUser = await axios.post('http://localhost:3000/users/login', {
+        let loggedUser = await axios.post('https://branded-things-hobby.herokuapp.com/users/login', {
           email: email,
           password: password
         })
@@ -44,7 +44,7 @@ const resolvers = {
       let {name, email, password, phoneNumber} = args.data
 
       try {
-        let newUser = await axios.post('http://localhost:3000/users/register', {
+        let newUser = await axios.post('https://branded-things-hobby.herokuapp.com/users/register', {
           name, email, password, phoneNumber
         })
 

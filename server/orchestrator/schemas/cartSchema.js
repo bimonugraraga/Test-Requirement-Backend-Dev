@@ -54,7 +54,7 @@ const resolvers = {
       let {access_token} = args
 
       try {
-        let myCartList = await axios.get('http://localhost:3000/carts', {
+        let myCartList = await axios.get('https://branded-things-hobby.herokuapp.com/carts', {
           headers: {
             access_token:access_token
           }
@@ -76,7 +76,7 @@ const resolvers = {
       let {size, gender} = args.data
 
       try {
-        let addedToMyCart = await axios.post(`http://localhost:3000/carts/${productId}`, {
+        let addedToMyCart = await axios.post(`https://branded-things-hobby.herokuapp.com/carts/${productId}`, {
           size,
           gender
         },{
