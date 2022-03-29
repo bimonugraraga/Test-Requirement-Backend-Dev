@@ -4,21 +4,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_PRODUCTS } from '../../lib/apollo/queries/productQuery';
 import { useEffect, useState, useContext } from 'react';
+
 const windowWidth = (Dimensions.get('window').width);
 const windowHeight = (Dimensions.get('window').height);
-function ProductScreen({navigation}){
+function ProductScreen({navigation, route}){
+  let [access_token, setAT] = useState(null)
+  let [similar, setSimi] = useState('')
+  const { loading, error, data, refetch  } = useQuery(GET_PRODUCTS, {
 
-  const { loading, error, data } = useQuery(GET_PRODUCTS)
-  console.log(loading, error, data, "<-->")
-
-
-  const LogOutHandler = (e) => {
-    e.preventDefault()
-    console.log("LOGGED OUT")
-    navigation.navigate('Login')
-
-  }
-
+    variables: {
+      similar: similar
+    }
+  })
+  
   function convertToRupiah(angka){
     var rupiah = '';		
     var angkarev = angka.toString().split('').reverse().join('');
@@ -27,19 +25,15 @@ function ProductScreen({navigation}){
   }
 
   const toDetail = (_id) => {
-    // console.log(_id)
     navigation.navigate('Detail', {
       _id: _id
     })
   }
 
   const Item = ({item}) => {
-    console.log(item)
+
     return (
-      // <View style={styles.cardProduct}>
-      //   {/* <Title style={styles.titleProduct}>{item.productName.toUpperCase()}</Title>
-      //   <Image source={{ uri: item.imgUrl}} style={styles.thumbnailImage}/> */}
-      // </View>
+
       <View style={styles.bigCard}>
         <Card style={styles.indCard}>
           <Card.Content style={styles.headCard}>
@@ -81,9 +75,19 @@ function ProductScreen({navigation}){
 
   return(
     <View style={styles.container}>
-      <Text>PRODUCT</Text>
-      <Button onPress={LogOutHandler}>LOGOUT</Button>
-
+      <View style={styles.searchBar}>
+        <Title>SHOP</Title>
+        <TextInput
+              label="Product Name"
+              style={styles.inputField}
+              onChangeText={(newText) => setSimi(newText)} 
+            />
+        <Button style={styles.searchBtn} onPress={() => refetch()}>
+          <Text style={styles.textLog}>
+            Search
+          </Text>
+        </Button>
+      </View>
       {renderScreen()}
     </View>
   )
@@ -117,7 +121,26 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     shadowColor: 'white',
     elevation: 10,
-  }
+  },
+  searchBar: {
+    width: windowWidth/1.2,
+    marginTop: 70,
+    marginBottom: 20
+
+  },
+  searchBtn: {
+    backgroundColor: 'blue',
+    borderRadius:5,
+    padding: 5,
+  },
+  textLog: {
+    color: 'white',
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  inputField:{
+    marginBottom: 10
+  },
 
   
 })

@@ -45,12 +45,7 @@ const resolvers = {
         similar = ''
       }
       try {
-        let allProducts = await axios.get(`http://localhost:3000/products?productName=${similar}`, {
-          headers: 
-          {
-            access_token: !access_token ? null: access_token
-          }
-        })
+        let allProducts = await axios.get(`http://localhost:3000/products?productName=${similar}`)
 
         // console.log(allProducts)
         return allProducts.data
@@ -63,14 +58,10 @@ const resolvers = {
     },
 
     GetOneProduct: async(_, args) => {
-      let {productId, access_token} = args
+      let {productId} = args
 
       try {
-        let oneProduct = await axios.get(`http://localhost:3000/products/${productId}`, {
-          headers: {
-            access_token: access_token
-          }
-        })
+        let oneProduct = await axios.get(`http://localhost:3000/products/${productId}`)
         return oneProduct.data
       } catch (error) {
         return error.response.data

@@ -7,18 +7,20 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import ProductRouter from './navigation/productRouter';
 import { ApolloProvider } from '@apollo/client';
 import client from './lib/apollo/connection';
+import AuthContext from './src/context';
+import { useState } from 'react';
 const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name='Login' component={LoginScreen}/>
-          <Stack.Screen name='Register' component={RegisterScreen}/>
-          <Stack.Screen name='ProductRouter' component={ProductRouter} options={{headerShown: false}}/>
-        </Stack.Navigator>
-      </NavigationContainer>
+ 
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name='Login' component={LoginScreen}/>
+            <Stack.Screen name='Register' component={RegisterScreen}/>
+            <Stack.Screen name='ProductRouter' component={ProductRouter} options={{headerShown: false}}/>
+          </Stack.Navigator>
+        </NavigationContainer>
     </ApolloProvider>
   );
 }
