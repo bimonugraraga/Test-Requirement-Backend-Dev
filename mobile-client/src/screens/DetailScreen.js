@@ -94,9 +94,6 @@ function DetailScreen({navigation, route}){
     }
   )
 
-  console.log(access_token, "<<<<<<<")
-
-  console.log(loading2, error2, data2, "<---->")
   
 
   const RenderS = () => {

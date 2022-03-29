@@ -32,8 +32,6 @@ function CartScreen({navigaton, route}){
     for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
     return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
   }
-  console.log(loading, error, data)
-  console.log(access_token, "<<<<")
 
   const Item = ({item}) => {
     console.log(item)
