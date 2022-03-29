@@ -45,7 +45,7 @@ const resolvers = {
         similar = ''
       }
       try {
-        let allProducts = await axios.get(`http://localhost:3000/products?productName=${similar}`)
+        let allProducts = await axios.get(`https://branded-things-hobby.herokuapp.com/products?productName=${similar}`)
 
         // console.log(allProducts)
         return allProducts.data
@@ -61,7 +61,7 @@ const resolvers = {
       let {productId} = args
 
       try {
-        let oneProduct = await axios.get(`http://localhost:3000/products/${productId}`)
+        let oneProduct = await axios.get(`https://branded-things-hobby.herokuapp.com/products/${productId}`)
         return oneProduct.data
       } catch (error) {
         return error.response.data
@@ -75,7 +75,7 @@ const resolvers = {
       let {access_token} = args
 
       try {
-        let newProduct = await axios.post('http://localhost:3000/products', {
+        let newProduct = await axios.post('https://branded-things-hobby.herokuapp.com/products', {
           productName,
           price,
           imgUrl
