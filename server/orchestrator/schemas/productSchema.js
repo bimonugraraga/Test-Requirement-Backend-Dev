@@ -38,20 +38,15 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     GetAllProduct: async(_, args) => {
-      // console.log(args)
       let {similar, access_token} = args
-      // console.log(access_token, similar)
       if (!similar){
         similar = ''
       }
       try {
         let allProducts = await axios.get(`https://branded-things-hobby.herokuapp.com/products?productName=${similar}`)
-
-        // console.log(allProducts)
         return allProducts.data
         
       } catch (error) {
-        console.log(error.response.data)
         return [error.response.data]
       }
 
@@ -87,7 +82,6 @@ const resolvers = {
 
         return newProduct.data
       } catch (error) {
-        console.log(error)
         return error.response.data
       }
     }
