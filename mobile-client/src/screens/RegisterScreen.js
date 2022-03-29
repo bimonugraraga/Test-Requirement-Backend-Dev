@@ -25,7 +25,7 @@ function RegisterScreen({navigation}){
       },
     }
   );
-  console.log(loading, error, data, "<-->");
+  // console.log(loading, error, data, "<-->");
   if (data) {
     if (data.RegisterUser.message.match('Has Been Registered!')){
       navigation.navigate("Login");
