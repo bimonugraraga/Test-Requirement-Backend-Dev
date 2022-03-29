@@ -14,3 +14,17 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const GET_PRODUCT = gql`
+  query($productId: String, $accessToken: String){
+    GetOneProduct(productId: $productId, access_token: $accessToken) {
+      productName,
+      Owner {
+        name
+      }
+      imgUrl
+      message
+      price
+    }
+  }
+`

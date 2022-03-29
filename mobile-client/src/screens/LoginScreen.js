@@ -1,44 +1,62 @@
 import {Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, ImageBackground, Dimensions} from 'react-native'
 import { TextInput, Avatar, Button, Card, Title, Paragraph, configureFonts, DefaultTheme } from 'react-native-paper';
 import { useEffect, useState, useContext } from 'react';
-import AuthContext from '../context';
 import { useMutation, useQuery } from "@apollo/client";
 import { USER_LOGIN } from '../../lib/apollo/queries/userQuery';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import AuthContext from '../context';
 const windowWidth = (Dimensions.get('window').width);
 const windowHeight = (Dimensions.get('window').height);
 function LoginScreen({navigation}){
-  const auth = useContext(AuthContext);
   let [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
 
-  let [submitHandler = () => {}, { loading, error, data }] = useMutation(
+  let [submitHandler, { loading, error, data }] = useMutation(
     USER_LOGIN,
-    {
+    );
+
+  console.log(loading, error, data, "<-->");
+  if (data){
+    if (data.LoginUser.access_token){
+      AsyncStorage.setItem("access_token", data.LoginUser.access_token)
+      .then((resp) => {
+        navigation.navigate("ProductRouter");
+      })
+      .catch((err) => {
+        console.log(err, "<><><>I");
+      });
+    } else {
+      console.log(data.LoginUser.message)
+    }
+  }
+
+  const LoginHandler = async (e) => {
+    e.preventDefault()
+    submitHandler({
       variables: {
         data: {
           email: email,
           password: password,
 
-        }
-      },
-    }
-  );
-  console.log(loading, error, data, auth, "<-->");
-  if (data){
-    if (data.LoginUser.access_token){
-      AsyncStorage.setItem("access_token", data.LoginUser.access_token)
-      .then((resp) => {
-        setEmail('')
-        setPassword('')
-        navigation.navigate("ProductRouter");
-      })
-      .catch((err) => {
-        console.log(err, "<><><>");
-      });
-    } else {
-      console.log(data.LoginUser.message)
+          }
+        },
+      }
+    )
+    setEmail('')
+    setPassword('')
+    if (data){
+      if (data.LoginUser.access_token){
+        AsyncStorage.setItem("access_token", data.LoginUser.access_token)
+        .then((resp) => {
+          console.log('ini apaan')
+          navigation.navigate("ProductRouter");
+        })
+        .catch((err) => {
+          console.log(err, "<><><>");
+        });
+      } else {
+        console.log(data.LoginUser.message)
+      }
     }
   }
   const toRegister = (e) => {
@@ -63,7 +81,7 @@ function LoginScreen({navigation}){
             onChangeText={(newText) => setPassword(newText)} 
           />
 
-          <Button style={styles.loginBtn} onPress={submitHandler}>
+          <Button style={styles.loginBtn} onPress={LoginHandler}>
             <Text style={styles.textLog}>
               MASUK
             </Text>
